@@ -1,3 +1,4 @@
+#1. Realice un programa que grafique el comportamiento de un sensor PT100 desde -200°C a 200°C. 
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -25,6 +26,9 @@ plt.show()
 
 #----------------------------------------------------------------------------
 
+#3. Implemente la ecuación de carga y descarga para un circuito RC. El usuario ingresa por teclado el 
+# valor de voltaje (V), capacitancia (𝜇𝐹) y resistencia (Ω).  Posteriormente realice en Python la 
+# gráfica.
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -60,7 +64,9 @@ plt.grid(True)
 plt.show()
 
 #----------------------------------------------------------------------------
-
+# 2. Realice un programa que le permita al usuario ingresar los coeficientes de una función de 
+# transferencia de segundo orden y graficar su comportamiento, además se debe mostrar que tipo 
+# de sistema es: subamortiguado, criticamente amortiguado y sobreamortiguado. 
 # --- Análisis de sistema de segundo orden ---
 import numpy as np
 import matplotlib.pyplot as plt
@@ -256,7 +262,8 @@ plt.show()
 
 #---------------------------------------------------------------
 
-#6. 
+#6. Obtenga las coordenadas X y Y de los contornos de dos logos de automóviles (Chevrolet, Hyundai, 
+# Mazda, etc.), a través de Python. 
 
 import cv2
 import numpy as np
