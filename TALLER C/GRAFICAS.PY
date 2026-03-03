@@ -25,6 +25,48 @@ plt.grid(True)
 plt.show()
 
 #----------------------------------------------------------------------------
+# 2. Realice un programa que le permita al usuario ingresar los coeficientes de una función de 
+# transferencia de segundo orden y graficar su comportamiento, además se debe mostrar que tipo 
+# de sistema es: subamortiguado, criticamente amortiguado y sobreamortiguado. 
+# --- Análisis de sistema de segundo orden ---
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import lti, step
+
+print("Ingrese los parámetros del sistema de segundo orden:")
+
+K = float(input("Ganancia (K): "))
+wn = float(input("Frecuencia natural (wn): "))
+zeta = float(input("Coeficiente de amortiguamiento (zeta): "))
+
+if zeta < 1:
+    tipo = "Subamortiguado"
+elif np.isclose(zeta, 1):
+    tipo = "Críticamente amortiguado"
+else:
+    tipo = "Sobreamortiguado"
+
+print(f"\nTipo de sistema: {tipo}")
+print(f"Frecuencia natural (wn): {wn:.3f}")
+print(f"Coeficiente de amortiguamiento (zeta): {zeta:.3f}")
+
+num = [K * wn**2]
+den = [1, 2*zeta*wn, wn**2]
+
+sys = lti(num, den)
+
+t, y = step(sys)
+
+plt.figure()
+plt.plot(t, y)
+plt.title(f"Respuesta al escalón - {tipo}")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Salida")
+plt.grid(True)
+plt.show()
+
+#---------------------------------------------------------------
+
 
 #3. Implemente la ecuación de carga y descarga para un circuito RC. El usuario ingresa por teclado el 
 # valor de voltaje (V), capacitancia (𝜇𝐹) y resistencia (Ω).  Posteriormente realice en Python la 
@@ -33,26 +75,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# Entrada de datos
 E = float(input("Ingresa el valor del voltaje (V): "))
 R = float(input("Ingresa el valor de la resistencia (Ω): "))
 C_uF = float(input("Ingresa el valor del capacitor (uF): "))
 
-# Conversión de microfaradios a faradios
 C = C_uF * 1e-6
 
-# Constante de tiempo
 tau = R * C
 print("Constante de tiempo tau =", tau, "s")
 
-# Vector de tiempo (0 a 5 tau)
-t = np.arange(0, 5 * tau, 0.01)
+t = np.arange(0, 5 * tau, 0.0001)
 
-# Ecuaciones
-Vc = E * (1 - np.exp(-t / tau))      # Voltaje de carga
-Vd = E * np.exp(-t / tau)            # Voltaje de descarga
+Vc = E * (1 - np.exp(-t / tau))    
+Vd = E * np.exp(-t / tau)            
 
-# Gráfica
 plt.plot(t, Vc, label="Carga del capacitor")
 plt.plot(t, Vd, label="Descarga del capacitor")
 
@@ -63,50 +99,8 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-#----------------------------------------------------------------------------
-# 2. Realice un programa que le permita al usuario ingresar los coeficientes de una función de 
-# transferencia de segundo orden y graficar su comportamiento, además se debe mostrar que tipo 
-# de sistema es: subamortiguado, criticamente amortiguado y sobreamortiguado. 
-# --- Análisis de sistema de segundo orden ---
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Ingreso de coeficientes
-print("Ingrese los coeficientes de la función de transferencia de segundo orden:")
-num = float(input("Coeficiente del numerador (ganancia): "))
-den2 = float(input("Coeficiente de s^2: "))
-den1 = float(input("Coeficiente de s: "))
-den0 = float(input("Coeficiente independiente: "))
-
-wn = np.sqrt(den0/den2)
-zeta = den1/(2*np.sqrt(den2*den0))
-
-# Determinar tipo de sistema
-if zeta < 1:
-	tipo = "Subamortiguado"
-elif np.isclose(zeta, 1):
-	tipo = "Críticamente amortiguado"
-else:
-	tipo = "Sobreamortiguado"
-
-print(f"\nTipo de sistema: {tipo}")
-print(f"Frecuencia natural (wn): {wn:.3f}")
-print(f"Coeficiente de amortiguamiento (zeta): {zeta:.3f}")
-
-# Respuesta al escalón unitario
-from scipy.signal import lti, step
-sys = lti([num], [den2, den1, den0])
-t, y = step(sys)
-
-# Gráfica
-plt.plot(t, y)
-plt.title(f"Respuesta al escalón - {tipo}")
-plt.xlabel("Tiempo (s)")
-plt.ylabel("Salida")
-plt.grid(True)
-plt.show()
-
 #---------------------------------------------------------------
+
 
 # 4.Elabore un sistema coordenado x, y, z donde se dibuje un vector con coordenadas
 # ingresdadas por el usuario, y se grafique en un espacio tridimensional.
